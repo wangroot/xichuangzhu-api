@@ -29,6 +29,20 @@ app.get('/update', function (req, res) {
   });
 });
 
+app.get('/work/:id', function (req, res) {
+  var work_id = parseInt(req.param('id'));
+
+  connection.query('SELECT * from work WHERE id = ' + work_id + '', function (err, rows) {
+    if (err) throw err;
+
+    if (rows.length >= 1) {
+      res.json(rows[0]);
+    } else {
+      res.status(404).send('作品不存在！');
+    }
+  });
+});
+
 // Error handle
 app.use(function (err, req, res, next) {
   console.error(err.stack);
